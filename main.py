@@ -1180,6 +1180,6 @@ while True:
         bot.polling(none_stop=True)
     except Exception as e:
         print(f"Bot crashed with error: {e}")
-        print("Restarting in 5 seconds...")
-        time.sleep(5)
+        print("Restarting in1 seconds...")
+        time.sleep(1)
 
