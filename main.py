@@ -7,6 +7,7 @@ import requests
 import threading
 import json
 import os
+from flask import Flask
 
 TOKEN = os.getenv("TOKEN")  # Replace with your bot token
 bot = telebot.TeleBot(TOKEN)
@@ -1172,5 +1173,23 @@ def check_afk(message):
             seconds = afk_duration % 60
 
             bot.reply_to(message, f"{message.reply_to_message.from_user.first_name} is AFK: {afk_info['reason']} (AFK for {minutes} min {seconds} sec).")
-        bot.polling(none_stop=True)
+
+        
+# Create a dummy Flask app to bind the port
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+# Function to run the bot polling
+def run_bot():
+    bot.polling(none_stop=True)
+
+# Start polling in a separate thread
+threading.Thread(target=run_bot).start()
+
+# Run Flask app on Render's required PORT
+port = int(os.environ.get("PORT", 5000))
+app.run(host='0.0.0.0', port=port)
 
