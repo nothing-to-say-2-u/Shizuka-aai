@@ -5,3 +5,4 @@ yt-dlp
 pytz
 Flask==2.2.3
 pyTelegramBotAPI==4.7.0
+Werkzeug<3.0
