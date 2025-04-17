@@ -1174,22 +1174,26 @@ def check_afk(message):
 
             bot.reply_to(message, f"{message.reply_to_message.from_user.first_name} is AFK: {afk_info['reason']} (AFK for {minutes} min {seconds} sec).")
 
-        
-# Create a dummy Flask app to bind the port
+
+# Define a simple command
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, "Hey babe, I'm alive!")
+
+# Create a dummy Flask app
 app = Flask(__name__)
 
 @app.route('/')
 def home():
     return "Bot is running!"
 
-# Function to run the bot polling
-def run_bot():
-    bot.polling(none_stop=True)
+# Function to run the dummy Flask server
+def run_server():
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
-# Start polling in a separate thread
-threading.Thread(target=run_bot).start()
+# Start the Flask server in a separate thread
+threading.Thread(target=run_server).start()
 
-# Run Flask app on Render's required PORT
-port = int(os.environ.get("PORT", 5000))
-app.run(host='0.0.0.0', port=port)
-
+# Run bot polling in the main thread
+bot.infinity_polling()
