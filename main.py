@@ -1172,14 +1172,5 @@ def check_afk(message):
             seconds = afk_duration % 60
 
             bot.reply_to(message, f"{message.reply_to_message.from_user.first_name} is AFK: {afk_info['reason']} (AFK for {minutes} min {seconds} sec).")
-
-    
-while True:
-    try:
-        print("Bot started polling...")
         bot.polling(none_stop=True)
-    except Exception as e:
-        print(f"Bot crashed with error: {e}")
-        print("Restarting in1 seconds...")
-        time.sleep(1)
 
